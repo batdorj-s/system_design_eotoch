@@ -1,0 +1,970 @@
+{
+  "version": "v2.2",
+  "trained_at": "2026-11-01T08:29:43.537517+00:00",
+  "models": [
+    {
+      "key": "heart",
+      "title": "Зүрх судасны өвчин",
+      "algorithm": "LogisticRegression-L2",
+      "rows": 920,
+      "features": [
+        "age",
+        "male",
+        "chol",
+        "fbs",
+        "exang"
+      ],
+      "comparison": [
+        {
+          "model": "LogisticRegression",
+          "exportable": true,
+          "auc": 0.8186,
+          "auc_std": 0.0263,
+          "accuracy": 0.754,
+          "accuracy_std": 0.0231,
+          "f1": 0.7783,
+          "f1_std": 0.021,
+          "ap": 0.832,
+          "ap_std": 0.031,
+          "brier": 0.1728,
+          "brier_std": 0.0122,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "LogisticRegression-L2",
+          "exportable": true,
+          "auc": 0.8186,
+          "auc_std": 0.0261,
+          "accuracy": 0.7511,
+          "accuracy_std": 0.0236,
+          "f1": 0.7763,
+          "f1_std": 0.022,
+          "ap": 0.8319,
+          "ap_std": 0.0307,
+          "brier": 0.1731,
+          "brier_std": 0.0115,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "LogisticRegression-Strong",
+          "exportable": true,
+          "auc": 0.8182,
+          "auc_std": 0.0258,
+          "accuracy": 0.7467,
+          "accuracy_std": 0.0236,
+          "f1": 0.7795,
+          "f1_std": 0.0203,
+          "ap": 0.8316,
+          "ap_std": 0.0304,
+          "brier": 0.1814,
+          "brier_std": 0.008,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "RandomForest",
+          "exportable": true,
+          "auc": 0.8257,
+          "auc_std": 0.0293,
+          "accuracy": 0.7707,
+          "accuracy_std": 0.033,
+          "f1": 0.7965,
+          "f1_std": 0.029,
+          "ap": 0.8358,
+          "ap_std": 0.0287,
+          "brier": 0.1683,
+          "brier_std": 0.0141,
+          "monotonic_violations": 0.0917
+        },
+        {
+          "model": "RandomForest-Monotone",
+          "exportable": true,
+          "auc": 0.8231,
+          "auc_std": 0.0249,
+          "accuracy": 0.7543,
+          "accuracy_std": 0.03,
+          "f1": 0.7932,
+          "f1_std": 0.0233,
+          "ap": 0.8309,
+          "ap_std": 0.0286,
+          "brier": 0.1804,
+          "brier_std": 0.0083,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "GradientBoosting",
+          "exportable": true,
+          "auc": 0.8177,
+          "auc_std": 0.0253,
+          "accuracy": 0.7558,
+          "accuracy_std": 0.0222,
+          "f1": 0.7832,
+          "f1_std": 0.0189,
+          "ap": 0.8272,
+          "ap_std": 0.0217,
+          "brier": 0.1725,
+          "brier_std": 0.013,
+          "monotonic_violations": 0.0833
+        },
+        {
+          "model": "XGBoost",
+          "exportable": false,
+          "auc": 0.8185,
+          "auc_std": 0.0303,
+          "accuracy": 0.7598,
+          "accuracy_std": 0.0298,
+          "f1": 0.7862,
+          "f1_std": 0.0258,
+          "ap": 0.8271,
+          "ap_std": 0.0279,
+          "brier": 0.1718,
+          "brier_std": 0.0159,
+          "monotonic_violations": 0.1
+        }
+      ],
+      "test": {
+        "accuracy": 0.7228,
+        "f1": 0.7536,
+        "confusion_matrix": [
+          [
+            55,
+            27
+          ],
+          [
+            24,
+            78
+          ]
+        ],
+        "auc": 0.7975,
+        "ap": 0.8282,
+        "brier": 0.1814,
+        "roc": [
+          {
+            "fpr": 0.0,
+            "tpr": 0.0
+          },
+          {
+            "fpr": 0.0,
+            "tpr": 0.108
+          },
+          {
+            "fpr": 0.012,
+            "tpr": 0.137
+          },
+          {
+            "fpr": 0.024,
+            "tpr": 0.196
+          },
+          {
+            "fpr": 0.037,
+            "tpr": 0.314
+          },
+          {
+            "fpr": 0.061,
+            "tpr": 0.363
+          },
+          {
+            "fpr": 0.085,
+            "tpr": 0.451
+          },
+          {
+            "fpr": 0.122,
+            "tpr": 0.461
+          },
+          {
+            "fpr": 0.122,
+            "tpr": 0.49
+          },
+          {
+            "fpr": 0.146,
+            "tpr": 0.549
+          },
+          {
+            "fpr": 0.159,
+            "tpr": 0.588
+          },
+          {
+            "fpr": 0.171,
+            "tpr": 0.598
+          },
+          {
+            "fpr": 0.22,
+            "tpr": 0.676
+          },
+          {
+            "fpr": 0.244,
+            "tpr": 0.686
+          },
+          {
+            "fpr": 0.256,
+            "tpr": 0.706
+          },
+          {
+            "fpr": 0.268,
+            "tpr": 0.716
+          },
+          {
+            "fpr": 0.293,
+            "tpr": 0.725
+          },
+          {
+            "fpr": 0.305,
+            "tpr": 0.745
+          },
+          {
+            "fpr": 0.329,
+            "tpr": 0.755
+          },
+          {
+            "fpr": 0.354,
+            "tpr": 0.804
+          },
+          {
+            "fpr": 0.378,
+            "tpr": 0.853
+          },
+          {
+            "fpr": 0.451,
+            "tpr": 0.863
+          },
+          {
+            "fpr": 0.512,
+            "tpr": 0.873
+          },
+          {
+            "fpr": 0.524,
+            "tpr": 0.892
+          },
+          {
+            "fpr": 0.585,
+            "tpr": 0.902
+          },
+          {
+            "fpr": 0.622,
+            "tpr": 0.922
+          },
+          {
+            "fpr": 0.659,
+            "tpr": 0.941
+          },
+          {
+            "fpr": 0.756,
+            "tpr": 0.961
+          },
+          {
+            "fpr": 0.902,
+            "tpr": 0.99
+          },
+          {
+            "fpr": 1.0,
+            "tpr": 1.0
+          }
+        ],
+        "calibration": [
+          {
+            "predicted": 0.134,
+            "observed": 0.13
+          },
+          {
+            "predicted": 0.251,
+            "observed": 0.304
+          },
+          {
+            "predicted": 0.37,
+            "observed": 0.304
+          },
+          {
+            "predicted": 0.505,
+            "observed": 0.609
+          },
+          {
+            "predicted": 0.622,
+            "observed": 0.652
+          },
+          {
+            "predicted": 0.742,
+            "observed": 0.652
+          },
+          {
+            "predicted": 0.851,
+            "observed": 0.875
+          },
+          {
+            "predicted": 0.916,
+            "observed": 0.909
+          }
+        ]
+      },
+      "importance": [
+        {
+          "feature": "exang",
+          "importance": 0.4383
+        },
+        {
+          "feature": "male",
+          "importance": 0.2414
+        },
+        {
+          "feature": "age",
+          "importance": 0.2141
+        },
+        {
+          "feature": "chol",
+          "importance": 0.0593
+        },
+        {
+          "feature": "fbs",
+          "importance": 0.047
+        }
+      ],
+      "onnx": "/models/heart.onnx",
+      "medians": {
+        "age": 54.0,
+        "male": 1.0,
+        "chol": 239.5,
+        "fbs": 0.0,
+        "exang": 0.0
+      },
+      "prior": {
+        "train": 0.5533,
+        "population": 0.15
+      },
+      "cv_rows": 920,
+      "full_clinical_auc": 0.8785,
+      "bp_conditional_coef": -0.0088
+    },
+    {
+      "key": "cancer",
+      "title": "Уушгины хавдрын эрсдэл (High түвшин)",
+      "algorithm": "LogisticRegression-Strong",
+      "rows": 152,
+      "features": [
+        "Age",
+        "Gender",
+        "Air Pollution",
+        "Alcohol use",
+        "Genetic Risk",
+        "Smoking",
+        "Obesity",
+        "Balanced Diet",
+        "Chest Pain",
+        "Coughing of Blood",
+        "Shortness of Breath",
+        "Fatigue",
+        "Weight Loss",
+        "Swallowing Difficulty"
+      ],
+      "comparison": [
+        {
+          "model": "LogisticRegression",
+          "exportable": true,
+          "auc": 0.9996,
+          "auc_std": 0.0012,
+          "accuracy": 0.9763,
+          "accuracy_std": 0.0302,
+          "f1": 0.967,
+          "f1_std": 0.0418,
+          "ap": 0.9994,
+          "ap_std": 0.0021,
+          "brier": 0.0146,
+          "brier_std": 0.0111,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "LogisticRegression-L2",
+          "exportable": true,
+          "auc": 0.9989,
+          "auc_std": 0.0024,
+          "accuracy": 0.9671,
+          "accuracy_std": 0.0279,
+          "f1": 0.9533,
+          "f1_std": 0.0394,
+          "ap": 0.9981,
+          "ap_std": 0.0041,
+          "brier": 0.0276,
+          "brier_std": 0.0099,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "LogisticRegression-Strong",
+          "exportable": true,
+          "auc": 0.9944,
+          "auc_std": 0.0086,
+          "accuracy": 0.9736,
+          "accuracy_std": 0.0246,
+          "f1": 0.9606,
+          "f1_std": 0.0375,
+          "ap": 0.991,
+          "ap_std": 0.0135,
+          "brier": 0.0775,
+          "brier_std": 0.0106,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "RandomForest",
+          "exportable": true,
+          "auc": 0.9951,
+          "auc_std": 0.0081,
+          "accuracy": 0.9591,
+          "accuracy_std": 0.0443,
+          "f1": 0.9423,
+          "f1_std": 0.0611,
+          "ap": 0.992,
+          "ap_std": 0.013,
+          "brier": 0.031,
+          "brier_std": 0.0158,
+          "monotonic_violations": 0.0528
+        },
+        {
+          "model": "RandomForest-Monotone",
+          "exportable": true,
+          "auc": 0.9932,
+          "auc_std": 0.0098,
+          "accuracy": 0.9393,
+          "accuracy_std": 0.0426,
+          "f1": 0.9171,
+          "f1_std": 0.0587,
+          "ap": 0.9895,
+          "ap_std": 0.0144,
+          "brier": 0.0473,
+          "brier_std": 0.0158,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "GradientBoosting",
+          "exportable": true,
+          "auc": 0.9748,
+          "auc_std": 0.0408,
+          "accuracy": 0.9762,
+          "accuracy_std": 0.0275,
+          "f1": 0.9659,
+          "f1_std": 0.0388,
+          "ap": 0.9719,
+          "ap_std": 0.0538,
+          "brier": 0.0222,
+          "brier_std": 0.0266,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "XGBoost",
+          "exportable": false,
+          "auc": 0.994,
+          "auc_std": 0.0197,
+          "accuracy": 0.984,
+          "accuracy_std": 0.0251,
+          "f1": 0.9764,
+          "f1_std": 0.0363,
+          "ap": 0.9858,
+          "ap_std": 0.0547,
+          "brier": 0.0162,
+          "brier_std": 0.0205,
+          "monotonic_violations": 0.0
+        }
+      ],
+      "test": {
+        "accuracy": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            20,
+            0
+          ],
+          [
+            0,
+            11
+          ]
+        ],
+        "auc": 1.0,
+        "ap": 1.0,
+        "brier": 0.0813,
+        "roc": [
+          {
+            "fpr": 0.0,
+            "tpr": 0.0
+          },
+          {
+            "fpr": 0.0,
+            "tpr": 0.091
+          },
+          {
+            "fpr": 0.0,
+            "tpr": 1.0
+          },
+          {
+            "fpr": 1.0,
+            "tpr": 1.0
+          }
+        ],
+        "calibration": [
+          {
+            "predicted": 0.101,
+            "observed": 0.0
+          },
+          {
+            "predicted": 0.126,
+            "observed": 0.0
+          },
+          {
+            "predicted": 0.147,
+            "observed": 0.0
+          },
+          {
+            "predicted": 0.204,
+            "observed": 0.0
+          },
+          {
+            "predicted": 0.365,
+            "observed": 0.0
+          },
+          {
+            "predicted": 0.54,
+            "observed": 0.75
+          },
+          {
+            "predicted": 0.619,
+            "observed": 1.0
+          },
+          {
+            "predicted": 0.702,
+            "observed": 1.0
+          }
+        ]
+      },
+      "importance": [
+        {
+          "feature": "Coughing of Blood",
+          "importance": 0.1248
+        },
+        {
+          "feature": "Obesity",
+          "importance": 0.1161
+        },
+        {
+          "feature": "Balanced Diet",
+          "importance": 0.1127
+        },
+        {
+          "feature": "Air Pollution",
+          "importance": 0.1085
+        },
+        {
+          "feature": "Smoking",
+          "importance": 0.0952
+        },
+        {
+          "feature": "Fatigue",
+          "importance": 0.0917
+        },
+        {
+          "feature": "Alcohol use",
+          "importance": 0.0808
+        },
+        {
+          "feature": "Chest Pain",
+          "importance": 0.0741
+        },
+        {
+          "feature": "Genetic Risk",
+          "importance": 0.0693
+        },
+        {
+          "feature": "Shortness of Breath",
+          "importance": 0.0462
+        },
+        {
+          "feature": "Weight Loss",
+          "importance": 0.0348
+        },
+        {
+          "feature": "Gender",
+          "importance": 0.0221
+        },
+        {
+          "feature": "Swallowing Difficulty",
+          "importance": 0.0215
+        },
+        {
+          "feature": "Age",
+          "importance": 0.0021
+        }
+      ],
+      "onnx": "/models/cancer.onnx",
+      "medians": {
+        "Age": 37.0,
+        "Gender": 1.0,
+        "Air Pollution": 3.0,
+        "Alcohol use": 5.0,
+        "Genetic Risk": 5.0,
+        "Smoking": 3.0,
+        "Obesity": 4.0,
+        "Balanced Diet": 4.0,
+        "Chest Pain": 4.0,
+        "Coughing of Blood": 4.0,
+        "Shortness of Breath": 4.0,
+        "Fatigue": 3.0,
+        "Weight Loss": 3.0,
+        "Swallowing Difficulty": 4.0
+      },
+      "prior": null,
+      "cv_rows": 152,
+      "leakage_demo": {
+        "accuracy_with_duplicates": 1.0,
+        "test_rows_also_in_train": 184,
+        "test_rows": 200
+      }
+    },
+    {
+      "key": "diabetes",
+      "title": "Чихрийн шижин / урьдал шижин",
+      "algorithm": "LogisticRegression-Strong",
+      "rows": 196804,
+      "features": [
+        "age_cat",
+        "male",
+        "bmi",
+        "high_bp",
+        "high_chol",
+        "ever_smoker",
+        "inactive",
+        "no_fruits",
+        "no_veggies"
+      ],
+      "comparison": [
+        {
+          "model": "LogisticRegression",
+          "exportable": true,
+          "auc": 0.81,
+          "auc_std": 0.0047,
+          "accuracy": 0.8804,
+          "accuracy_std": 0.0009,
+          "f1": 0.1241,
+          "f1_std": 0.0125,
+          "ap": 0.3504,
+          "ap_std": 0.0084,
+          "brier": 0.0902,
+          "brier_std": 0.0007,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "LogisticRegression-L2",
+          "exportable": true,
+          "auc": 0.81,
+          "auc_std": 0.0047,
+          "accuracy": 0.8806,
+          "accuracy_std": 0.001,
+          "f1": 0.1226,
+          "f1_std": 0.012,
+          "ap": 0.3504,
+          "ap_std": 0.0084,
+          "brier": 0.0902,
+          "brier_std": 0.0006,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "LogisticRegression-Strong",
+          "exportable": true,
+          "auc": 0.8099,
+          "auc_std": 0.0047,
+          "accuracy": 0.8804,
+          "accuracy_std": 0.0011,
+          "f1": 0.1134,
+          "f1_std": 0.0111,
+          "ap": 0.3504,
+          "ap_std": 0.0085,
+          "brier": 0.0902,
+          "brier_std": 0.0006,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "RandomForest",
+          "exportable": true,
+          "auc": 0.8136,
+          "auc_std": 0.0053,
+          "accuracy": 0.8811,
+          "accuracy_std": 0.0003,
+          "f1": 0.0329,
+          "f1_std": 0.005,
+          "ap": 0.3721,
+          "ap_std": 0.0114,
+          "brier": 0.089,
+          "brier_std": 0.0007,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "RandomForest-Monotone",
+          "exportable": true,
+          "auc": 0.8096,
+          "auc_std": 0.0067,
+          "accuracy": 0.8801,
+          "accuracy_std": 0.0,
+          "f1": 0.0,
+          "f1_std": 0.0,
+          "ap": 0.3654,
+          "ap_std": 0.0101,
+          "brier": 0.0935,
+          "brier_std": 0.0003,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "GradientBoosting",
+          "exportable": true,
+          "auc": 0.8157,
+          "auc_std": 0.004,
+          "accuracy": 0.8817,
+          "accuracy_std": 0.0015,
+          "f1": 0.1697,
+          "f1_std": 0.0157,
+          "ap": 0.3732,
+          "ap_std": 0.0131,
+          "brier": 0.0886,
+          "brier_std": 0.0009,
+          "monotonic_violations": 0.0
+        },
+        {
+          "model": "XGBoost",
+          "exportable": false,
+          "auc": 0.8159,
+          "auc_std": 0.0041,
+          "accuracy": 0.8818,
+          "accuracy_std": 0.0017,
+          "f1": 0.1712,
+          "f1_std": 0.0153,
+          "ap": 0.3746,
+          "ap_std": 0.0122,
+          "brier": 0.0885,
+          "brier_std": 0.0009,
+          "monotonic_violations": 0.0125
+        }
+      ],
+      "test": {
+        "accuracy": 0.881,
+        "f1": 0.1345,
+        "confusion_matrix": [
+          [
+            34314,
+            328
+          ],
+          [
+            4355,
+            364
+          ]
+        ],
+        "auc": 0.8089,
+        "ap": 0.3563,
+        "brier": 0.0898,
+        "roc": [
+          {
+            "fpr": 0.0,
+            "tpr": 0.0
+          },
+          {
+            "fpr": 0.009,
+            "tpr": 0.072
+          },
+          {
+            "fpr": 0.022,
+            "tpr": 0.154
+          },
+          {
+            "fpr": 0.037,
+            "tpr": 0.239
+          },
+          {
+            "fpr": 0.058,
+            "tpr": 0.325
+          },
+          {
+            "fpr": 0.082,
+            "tpr": 0.405
+          },
+          {
+            "fpr": 0.109,
+            "tpr": 0.469
+          },
+          {
+            "fpr": 0.137,
+            "tpr": 0.532
+          },
+          {
+            "fpr": 0.161,
+            "tpr": 0.579
+          },
+          {
+            "fpr": 0.185,
+            "tpr": 0.629
+          },
+          {
+            "fpr": 0.21,
+            "tpr": 0.667
+          },
+          {
+            "fpr": 0.235,
+            "tpr": 0.699
+          },
+          {
+            "fpr": 0.261,
+            "tpr": 0.734
+          },
+          {
+            "fpr": 0.29,
+            "tpr": 0.764
+          },
+          {
+            "fpr": 0.32,
+            "tpr": 0.795
+          },
+          {
+            "fpr": 0.354,
+            "tpr": 0.821
+          },
+          {
+            "fpr": 0.387,
+            "tpr": 0.841
+          },
+          {
+            "fpr": 0.42,
+            "tpr": 0.865
+          },
+          {
+            "fpr": 0.455,
+            "tpr": 0.883
+          },
+          {
+            "fpr": 0.489,
+            "tpr": 0.903
+          },
+          {
+            "fpr": 0.524,
+            "tpr": 0.918
+          },
+          {
+            "fpr": 0.561,
+            "tpr": 0.933
+          },
+          {
+            "fpr": 0.602,
+            "tpr": 0.947
+          },
+          {
+            "fpr": 0.649,
+            "tpr": 0.958
+          },
+          {
+            "fpr": 0.701,
+            "tpr": 0.967
+          },
+          {
+            "fpr": 0.755,
+            "tpr": 0.977
+          },
+          {
+            "fpr": 0.812,
+            "tpr": 0.985
+          },
+          {
+            "fpr": 0.871,
+            "tpr": 0.991
+          },
+          {
+            "fpr": 0.936,
+            "tpr": 0.996
+          },
+          {
+            "fpr": 1.0,
+            "tpr": 1.0
+          }
+        ],
+        "calibration": [
+          {
+            "predicted": 0.013,
+            "observed": 0.01
+          },
+          {
+            "predicted": 0.024,
+            "observed": 0.018
+          },
+          {
+            "predicted": 0.036,
+            "observed": 0.029
+          },
+          {
+            "predicted": 0.055,
+            "observed": 0.058
+          },
+          {
+            "predicted": 0.086,
+            "observed": 0.083
+          },
+          {
+            "predicted": 0.135,
+            "observed": 0.142
+          },
+          {
+            "predicted": 0.222,
+            "observed": 0.22
+          },
+          {
+            "predicted": 0.393,
+            "observed": 0.4
+          }
+        ]
+      },
+      "importance": [
+        {
+          "feature": "high_bp",
+          "importance": 0.2727
+        },
+        {
+          "feature": "high_chol",
+          "importance": 0.1952
+        },
+        {
+          "feature": "age_cat",
+          "importance": 0.192
+        },
+        {
+          "feature": "bmi",
+          "importance": 0.1814
+        },
+        {
+          "feature": "inactive",
+          "importance": 0.0731
+        },
+        {
+          "feature": "ever_smoker",
+          "importance": 0.0367
+        },
+        {
+          "feature": "no_veggies",
+          "importance": 0.0221
+        },
+        {
+          "feature": "male",
+          "importance": 0.0156
+        },
+        {
+          "feature": "no_fruits",
+          "importance": 0.0113
+        }
+      ],
+      "onnx": "/models/diabetes.onnx",
+      "medians": {
+        "age_cat": 7.0,
+        "male": 0.0,
+        "bmi": 27.0,
+        "high_bp": 0.0,
+        "high_chol": 0.0,
+        "ever_smoker": 0.0,
+        "inactive": 0.0,
+        "no_fruits": 0.0,
+        "no_veggies": 0.0
+      },
+      "prior": {
+        "train": 0.1199,
+        "population": 0.152
+      },
+      "cv_rows": 40000,
+      "synthetic": false,
+      "source": "CDC BRFSS 2015 (UCI #891)"
+    }
+  ]
+}

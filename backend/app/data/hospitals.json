@@ -1,0 +1,201 @@
+[
+  {
+    "id": "songdo",
+    "name": "Сонгдо Эмнэлэг",
+    "address": "Чойдогын гудамж 5, Сүхбаатар дүүрэг",
+    "lat": 47.9131,
+    "lng": 106.9175,
+    "phone": "70111166",
+    "hours": "24/7",
+    "isEmergency": true,
+    "type": "Private",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл",
+      "Уушги, амьсгалын зам"
+    ],
+    "openTime": "00:00",
+    "closeTime": "23:59",
+    "active": true,
+    "coordinates_approx": true
+  },
+  {
+    "id": "intermed",
+    "name": "Интермед Эмнэлэг",
+    "address": "Хан-Уул дүүрэг, 19-р хороо, Чингисийн өргөн чөлөө 41",
+    "lat": 47.8988,
+    "lng": 106.9118,
+    "phone": "77011111",
+    "hours": "24/7",
+    "isEmergency": true,
+    "type": "Private",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл",
+      "Уушги, амьсгалын зам",
+      "Хавдар судлал"
+    ],
+    "openTime": "00:00",
+    "closeTime": "23:59",
+    "active": true,
+    "coordinates_approx": true
+  },
+  {
+    "id": "state-2",
+    "name": "Улсын Хоёрдугаар Төв Эмнэлэг",
+    "address": "Баянзүрх дүүрэг, 3-р хороо",
+    "lat": 47.9194,
+    "lng": 106.9405,
+    "phone": "70150308",
+    "hours": "24/7",
+    "isEmergency": true,
+    "type": "Public",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл",
+      "Уушги, амьсгалын зам"
+    ],
+    "openTime": "00:00",
+    "closeTime": "23:59",
+    "active": true,
+    "coordinates_approx": true
+  },
+  {
+    "id": "state-3",
+    "name": "Улсын Гуравдугаар Төв Эмнэлэг (Шастины нэрэмжит)",
+    "lat": 47.9155,
+    "lng": 106.8458,
+    "phone": "70183502",
+    "hours": "24/7",
+    "isEmergency": true,
+    "type": "Public",
+    "specialties": [
+      "Зүрх судас",
+      "Уушги, амьсгалын зам"
+    ],
+    "openTime": "00:00",
+    "closeTime": "23:59",
+    "active": true,
+    "coordinates_approx": true
+  },
+  {
+    "id": "ncm",
+    "name": "Хавдар Судлалын Үндэсний Төв (ХСҮТ)",
+    "address": "Баянзүрх дүүрэг, 18-р хороо, Нам Ян Жугийн гудамж",
+    "lat": 47.9055,
+    "lng": 106.9458,
+    "phone": "70162529",
+    "hours": "08:00 - 16:00",
+    "isEmergency": false,
+    "type": "Public",
+    "specialties": [
+      "Хавдар судлал"
+    ],
+    "openTime": "08:00",
+    "closeTime": "16:00",
+    "active": true,
+    "coordinates_approx": true
+  },
+  {
+    "id": "grandmed",
+    "name": "Грандмед Эмнэлэг",
+    "address": "Хан-Уул дүүрэг, 11-р хороо",
+    "lat": 47.8894,
+    "lng": 106.9064,
+    "phone": "77000066",
+    "hours": "08:00 - 20:00",
+    "isEmergency": false,
+    "type": "Private",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл"
+    ],
+    "openTime": "08:00",
+    "closeTime": "20:00",
+    "active": true,
+    "coordinates_approx": true
+  },
+  {
+    "id": "state-1",
+    "name": "Улсын Нэгдүгээр Төв Эмнэлэг",
+    "address": "Сүхбаатар дүүрэг, С.Зоригийн гудамж",
+    "lat": 47.9233,
+    "lng": 106.9049,
+    "phone": "",
+    "hours": "24/7",
+    "isEmergency": true,
+    "type": "Public",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл",
+      "Уушги, амьсгалын зам",
+      "Хавдар судлал"
+    ],
+    "openTime": "00:00",
+    "closeTime": "23:59",
+    "active": true,
+    "coordinates_approx": true,
+    "needs_verification": true
+  },
+  {
+    "id": "bzd",
+    "name": "Баянзүрх дүүргийн Нэгдсэн Эмнэлэг",
+    "address": "Баянзүрх дүүрэг, 26-р хороо",
+    "lat": 47.9152,
+    "lng": 106.983,
+    "phone": "",
+    "hours": "08:30–17:30",
+    "isEmergency": false,
+    "type": "Public",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл"
+    ],
+    "openTime": "08:30",
+    "closeTime": "17:30",
+    "active": true,
+    "coordinates_approx": true,
+    "needs_verification": true
+  },
+  {
+    "id": "chd",
+    "name": "Чингэлтэй дүүргийн Нэгдсэн Эмнэлэг",
+    "address": "Чингэлтэй дүүрэг, 4-р хороо",
+    "lat": 47.9325,
+    "lng": 106.901,
+    "phone": "",
+    "hours": "08:30–17:30",
+    "isEmergency": false,
+    "type": "Public",
+    "specialties": [
+      "Дотоод шүүрэл",
+      "Уушги, амьсгалын зам"
+    ],
+    "openTime": "08:30",
+    "closeTime": "17:30",
+    "active": true,
+    "coordinates_approx": true,
+    "needs_verification": true
+  },
+  {
+    "id": "hud",
+    "name": "Хан-Уул дүүргийн Нэгдсэн Эмнэлэг",
+    "address": "Хан-Уул дүүрэг, 3-р хороо",
+    "lat": 47.8935,
+    "lng": 106.889,
+    "phone": "",
+    "hours": "08:30–17:30",
+    "isEmergency": false,
+    "type": "Public",
+    "specialties": [
+      "Зүрх судас",
+      "Дотоод шүүрэл",
+      "Уушги, амьсгалын зам"
+    ],
+    "openTime": "08:30",
+    "closeTime": "17:30",
+    "active": true,
+    "coordinates_approx": true,
+    "needs_verification": true
+  }
+]

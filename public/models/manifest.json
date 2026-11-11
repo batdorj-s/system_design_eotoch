@@ -1,0 +1,60 @@
+{
+  "version": "v2.2",
+  "models": {
+    "heart": {
+      "path": "/models/heart.onnx",
+      "features": [
+        "age",
+        "male",
+        "chol",
+        "fbs",
+        "exang"
+      ],
+      "multiclass": false,
+      "prior": {
+        "train": 0.5533,
+        "population": 0.15
+      }
+    },
+    "cancer": {
+      "path": "/models/cancer.onnx",
+      "features": [
+        "Age",
+        "Gender",
+        "Air Pollution",
+        "Alcohol use",
+        "Genetic Risk",
+        "Smoking",
+        "Obesity",
+        "Balanced Diet",
+        "Chest Pain",
+        "Coughing of Blood",
+        "Shortness of Breath",
+        "Fatigue",
+        "Weight Loss",
+        "Swallowing Difficulty"
+      ],
+      "multiclass": false,
+      "prior": null
+    },
+    "diabetes": {
+      "path": "/models/diabetes.onnx",
+      "features": [
+        "age_cat",
+        "male",
+        "bmi",
+        "high_bp",
+        "high_chol",
+        "ever_smoker",
+        "inactive",
+        "no_fruits",
+        "no_veggies"
+      ],
+      "multiclass": false,
+      "prior": {
+        "train": 0.1199,
+        "population": 0.152
+      }
+    }
+  }
+}

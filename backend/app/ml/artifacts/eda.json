@@ -1,0 +1,823 @@
+{
+  "generated_at": "2026-11-01T08:28:32.913623+00:00",
+  "datasets": [
+    {
+      "key": "heart",
+      "title": "Зүрх судасны өвчин (UCI Heart Disease)",
+      "source": "UCI Machine Learning Repository / Kaggle — Cleveland, Hungary, Switzerland, VA Long Beach",
+      "rows": 920,
+      "columns": 16,
+      "target": "num > 0 (зүрхний титэм судасны өвчин оношлогдсон)",
+      "class_balance": {
+        "negative": 411,
+        "positive": 509
+      },
+      "missing": {
+        "trestbps": 59,
+        "chol": 30,
+        "fbs": 90,
+        "restecg": 2,
+        "thalch": 55,
+        "exang": 55,
+        "oldpeak": 62,
+        "slope": 309,
+        "ca": 611,
+        "thal": 486
+      },
+      "zero_as_missing": {
+        "trestbps": 1,
+        "chol": 172
+      },
+      "by_source": [
+        {
+          "dataset": "Cleveland",
+          "rows": 304,
+          "disease_rate": 0.457,
+          "chol_missing": 0.0
+        },
+        {
+          "dataset": "Hungary",
+          "rows": 293,
+          "disease_rate": 0.362,
+          "chol_missing": 0.078
+        },
+        {
+          "dataset": "Switzerland",
+          "rows": 123,
+          "disease_rate": 0.935,
+          "chol_missing": 1.0
+        },
+        {
+          "dataset": "VA Long Beach",
+          "rows": 200,
+          "disease_rate": 0.745,
+          "chol_missing": 0.28
+        }
+      ],
+      "chest_pain_types": [
+        {
+          "cp": "asymptomatic",
+          "rows": 496,
+          "disease_rate": 0.79
+        },
+        {
+          "cp": "atypical angina",
+          "rows": 174,
+          "disease_rate": 0.138
+        },
+        {
+          "cp": "non-anginal",
+          "rows": 204,
+          "disease_rate": 0.358
+        },
+        {
+          "cp": "typical angina",
+          "rows": 46,
+          "disease_rate": 0.435
+        }
+      ],
+      "summary": {
+        "age": {
+          "mean": 53.51,
+          "std": 9.42,
+          "min": 28.0,
+          "50%": 54.0,
+          "max": 77.0
+        },
+        "trestbps": {
+          "mean": 132.29,
+          "std": 18.54,
+          "min": 80.0,
+          "50%": 130.0,
+          "max": 200.0
+        },
+        "chol": {
+          "mean": 246.83,
+          "std": 58.53,
+          "min": 85.0,
+          "50%": 239.5,
+          "max": 603.0
+        },
+        "thalch": {
+          "mean": 137.55,
+          "std": 25.93,
+          "min": 60.0,
+          "50%": 140.0,
+          "max": 202.0
+        },
+        "oldpeak": {
+          "mean": 0.88,
+          "std": 1.09,
+          "min": -2.6,
+          "50%": 0.5,
+          "max": 6.2
+        }
+      },
+      "histograms": {
+        "age": [
+          {
+            "bin": "28–33",
+            "negative": 9,
+            "positive": 3,
+            "rate": 0.25
+          },
+          {
+            "bin": "33–38",
+            "negative": 27,
+            "positive": 10,
+            "rate": 0.27
+          },
+          {
+            "bin": "38–43",
+            "negative": 58,
+            "positive": 28,
+            "rate": 0.326
+          },
+          {
+            "bin": "43–48",
+            "negative": 60,
+            "positive": 44,
+            "rate": 0.423
+          },
+          {
+            "bin": "48–52",
+            "negative": 75,
+            "positive": 74,
+            "rate": 0.497
+          },
+          {
+            "bin": "52–57",
+            "negative": 88,
+            "positive": 113,
+            "rate": 0.562
+          },
+          {
+            "bin": "57–62",
+            "negative": 49,
+            "positive": 127,
+            "rate": 0.722
+          },
+          {
+            "bin": "62–67",
+            "negative": 29,
+            "positive": 72,
+            "rate": 0.713
+          },
+          {
+            "bin": "67–72",
+            "negative": 12,
+            "positive": 27,
+            "rate": 0.692
+          },
+          {
+            "bin": "72–77",
+            "negative": 4,
+            "positive": 11,
+            "rate": 0.733
+          }
+        ],
+        "trestbps": [
+          {
+            "bin": "80–92",
+            "negative": 1,
+            "positive": 0,
+            "rate": 0.0
+          },
+          {
+            "bin": "92–104",
+            "negative": 14,
+            "positive": 16,
+            "rate": 0.533
+          },
+          {
+            "bin": "104–116",
+            "negative": 53,
+            "positive": 64,
+            "rate": 0.547
+          },
+          {
+            "bin": "116–128",
+            "negative": 105,
+            "positive": 101,
+            "rate": 0.49
+          },
+          {
+            "bin": "128–140",
+            "negative": 99,
+            "positive": 96,
+            "rate": 0.492
+          },
+          {
+            "bin": "140–152",
+            "negative": 83,
+            "positive": 111,
+            "rate": 0.572
+          },
+          {
+            "bin": "152–164",
+            "negative": 24,
+            "positive": 50,
+            "rate": 0.676
+          },
+          {
+            "bin": "164–176",
+            "negative": 4,
+            "positive": 16,
+            "rate": 0.8
+          },
+          {
+            "bin": "176–188",
+            "negative": 7,
+            "positive": 9,
+            "rate": 0.562
+          },
+          {
+            "bin": "188–200",
+            "negative": 1,
+            "positive": 6,
+            "rate": 0.857
+          }
+        ]
+      },
+      "correlations": [
+        {
+          "feature": "exang",
+          "corr": 0.464
+        },
+        {
+          "feature": "ca",
+          "corr": 0.456
+        },
+        {
+          "feature": "thalch",
+          "corr": -0.395
+        },
+        {
+          "feature": "oldpeak",
+          "corr": 0.386
+        },
+        {
+          "feature": "male",
+          "corr": 0.307
+        },
+        {
+          "feature": "age",
+          "corr": 0.283
+        },
+        {
+          "feature": "fbs",
+          "corr": 0.143
+        },
+        {
+          "feature": "chol",
+          "corr": 0.118
+        },
+        {
+          "feature": "trestbps",
+          "corr": 0.117
+        }
+      ],
+      "findings": [
+        "Нийт 920 өвчтөн, 55% нь өвчтэй — энэ нь эмнэлэгт хандсан хүмүүсийн өгөгдөл тул нийт хүн амаас хамаагүй өндөр. Иймд загварын магадлалыг хүн амын түвшинд (≈15%) шилжүүлж тохируулсан.",
+        "Холестерин 172 мөрөнд 0 гэж бичигдсэн (ихэнх нь Switzerland) — энэ нь бодит утга биш, дутуу өгөгдөл. NaN болгож медианаар нөхсөн.",
+        "Цээжний өвдөлтийн 'asymptomatic' ангилалд өвчлөл хамгийн өндөр (≈79%) — эмнэлгийн сонголтын хазайлт (selection bias). Иймээс cp шинжийг асуулгын загварт ашиглаагүй.",
+        "Зорилтот хувьсагчтай хамгийн хүчтэй хамааралтай шинж: exang (0.464), ca (0.456).",
+        "Систолын даралт (trestbps) дангаараа өвчлөлтэй эерэг хамааралтай (≤120: 48% → >160: 72%), гэвч нас, хүйсийг тооцсоны дараа логистик регрессийн коэффициент ≈0 болдог — эмнэлэгт хандсан хүмүүсийн өгөгдлийн хазайлт. Иймээс даралтын нөлөөг мета-шинжилгээний OR (20 ммМУБ тутамд ×1.5)-оор тооцсон.",
+        "ca, thal, slope баганууд 30–66% дутуу — асуулгаар цуглуулах боломжгүй тул загварт оруулаагүй."
+      ]
+    },
+    {
+      "key": "cancer",
+      "title": "Уушгины хавдрын эрсдэл (Cancer Patient Data Sets)",
+      "source": "Kaggle — Lung cancer prediction dataset (1000 өвчтөн, 23 шинж)",
+      "rows": 1000,
+      "unique_rows": 152,
+      "duplicates": 848,
+      "columns": 26,
+      "target": "Level (Low / Medium / High) → загвар: High эсэх",
+      "class_balance": {
+        "High": 53,
+        "Medium": 52,
+        "Low": 47
+      },
+      "class_balance_raw": {
+        "High": 365,
+        "Medium": 332,
+        "Low": 303
+      },
+      "summary": {
+        "Age": {
+          "mean": 38.24,
+          "std": 11.8,
+          "min": 14.0,
+          "50%": 37.0,
+          "max": 73.0
+        },
+        "Air Pollution": {
+          "mean": 3.72,
+          "std": 1.98,
+          "min": 1.0,
+          "50%": 3.0,
+          "max": 8.0
+        },
+        "Smoking": {
+          "mean": 3.97,
+          "std": 2.47,
+          "min": 1.0,
+          "50%": 3.0,
+          "max": 8.0
+        },
+        "Alcohol use": {
+          "mean": 4.48,
+          "std": 2.6,
+          "min": 1.0,
+          "50%": 5.0,
+          "max": 8.0
+        },
+        "Genetic Risk": {
+          "mean": 4.49,
+          "std": 2.14,
+          "min": 1.0,
+          "50%": 5.0,
+          "max": 7.0
+        }
+      },
+      "correlations": [
+        {
+          "feature": "Obesity",
+          "corr": 0.813
+        },
+        {
+          "feature": "Coughing of Blood",
+          "corr": 0.788
+        },
+        {
+          "feature": "Alcohol use",
+          "corr": 0.736
+        },
+        {
+          "feature": "Balanced Diet",
+          "corr": 0.729
+        },
+        {
+          "feature": "Dust Allergy",
+          "corr": 0.726
+        },
+        {
+          "feature": "Genetic Risk",
+          "corr": 0.719
+        },
+        {
+          "feature": "Passive Smoker",
+          "corr": 0.681
+        },
+        {
+          "feature": "OccuPational Hazards",
+          "corr": 0.679
+        },
+        {
+          "feature": "Chest Pain",
+          "corr": 0.664
+        },
+        {
+          "feature": "chronic Lung Disease",
+          "corr": 0.635
+        },
+        {
+          "feature": "Air Pollution",
+          "corr": 0.629
+        },
+        {
+          "feature": "Fatigue",
+          "corr": 0.604
+        },
+        {
+          "feature": "Shortness of Breath",
+          "corr": 0.494
+        },
+        {
+          "feature": "Smoking",
+          "corr": 0.472
+        },
+        {
+          "feature": "Frequent Cold",
+          "corr": 0.428
+        },
+        {
+          "feature": "Dry Cough",
+          "corr": 0.386
+        },
+        {
+          "feature": "Weight Loss",
+          "corr": 0.383
+        },
+        {
+          "feature": "Snoring",
+          "corr": 0.288
+        },
+        {
+          "feature": "Clubbing of Finger Nails",
+          "corr": 0.287
+        },
+        {
+          "feature": "Wheezing",
+          "corr": 0.245
+        },
+        {
+          "feature": "Gender",
+          "corr": -0.239
+        },
+        {
+          "feature": "Swallowing Difficulty",
+          "corr": 0.184
+        },
+        {
+          "feature": "Age",
+          "corr": 0.019
+        }
+      ],
+      "level_by_feature": [
+        {
+          "feature": "Smoking",
+          "points": [
+            {
+              "value": 1,
+              "high_rate": 0.0
+            },
+            {
+              "value": 2,
+              "high_rate": 0.324
+            },
+            {
+              "value": 3,
+              "high_rate": 0.0
+            },
+            {
+              "value": 4,
+              "high_rate": 0.222
+            },
+            {
+              "value": 5,
+              "high_rate": 0.0
+            },
+            {
+              "value": 6,
+              "high_rate": 0.167
+            },
+            {
+              "value": 7,
+              "high_rate": 0.867
+            },
+            {
+              "value": 8,
+              "high_rate": 0.923
+            }
+          ]
+        },
+        {
+          "feature": "Air Pollution",
+          "points": [
+            {
+              "value": 1,
+              "high_rate": 0.0
+            },
+            {
+              "value": 2,
+              "high_rate": 0.091
+            },
+            {
+              "value": 3,
+              "high_rate": 0.0
+            },
+            {
+              "value": 4,
+              "high_rate": 0.562
+            },
+            {
+              "value": 5,
+              "high_rate": 0.0
+            },
+            {
+              "value": 6,
+              "high_rate": 0.761
+            },
+            {
+              "value": 7,
+              "high_rate": 1.0
+            },
+            {
+              "value": 8,
+              "high_rate": 1.0
+            }
+          ]
+        },
+        {
+          "feature": "Coughing of Blood",
+          "points": [
+            {
+              "value": 1,
+              "high_rate": 0.0
+            },
+            {
+              "value": 2,
+              "high_rate": 0.0
+            },
+            {
+              "value": 3,
+              "high_rate": 0.042
+            },
+            {
+              "value": 4,
+              "high_rate": 0.0
+            },
+            {
+              "value": 5,
+              "high_rate": 0.0
+            },
+            {
+              "value": 6,
+              "high_rate": 0.5
+            },
+            {
+              "value": 7,
+              "high_rate": 0.815
+            },
+            {
+              "value": 8,
+              "high_rate": 0.941
+            },
+            {
+              "value": 9,
+              "high_rate": 1.0
+            }
+          ]
+        }
+      ],
+      "findings": [
+        "1000 мөрөөс 848 нь бүрэн давхардал — давтагдашгүй ердөө 152 мөр. Давхардлыг арилгалгүй сургавал тест өгөгдөлд сургалтын хуулбар орж, нарийвчлал хиймлээр ~100% гарна (data leakage).",
+        "Бүх шинж 1–9 оноон шкал дээр, Level-тэй маш өндөр хамааралтай — энэ өгөгдөл бодит клиник бус, хялбаршуулсан шинжтэй. Иймээс гаралтыг 'харьцангуй эрсдэлийн индекс' гэж тайлбарлана.",
+        "Хамгийн хүчтэй хамааралтай шинжүүд: Obesity, Coughing of Blood, Alcohol use, Balanced Diet.",
+        "Монголд агаарын бохирдол болон эрэгтэйчүүдийн тамхидалт (49.1%) өндөр тул эдгээр шинж загварт чухал үүрэгтэй."
+      ]
+    },
+    {
+      "key": "diabetes",
+      "title": "Чихрийн шижин / урьдал шижин (CDC BRFSS 2015)",
+      "source": "UCI ML Repository #891 — CDC Diabetes Health Indicators (АНУ-ын BRFSS 2015 судалгаа)",
+      "rows": 253680,
+      "columns": 23,
+      "duplicates": 24206,
+      "target": "Diabetes_binary (0 = үгүй, 1 = чихрийн шижин эсвэл урьдал шижин)",
+      "class_balance": {
+        "negative": 218334,
+        "positive": 35346
+      },
+      "summary": {
+        "BMI": {
+          "mean": 28.38,
+          "std": 6.61,
+          "min": 12.0,
+          "50%": 27.0,
+          "max": 98.0
+        },
+        "Age": {
+          "mean": 8.03,
+          "std": 3.05,
+          "min": 1.0,
+          "50%": 8.0,
+          "max": 13.0
+        },
+        "GenHlth": {
+          "mean": 2.51,
+          "std": 1.07,
+          "min": 1.0,
+          "50%": 2.0,
+          "max": 5.0
+        },
+        "MentHlth": {
+          "mean": 3.18,
+          "std": 7.41,
+          "min": 0.0,
+          "50%": 0.0,
+          "max": 30.0
+        },
+        "PhysHlth": {
+          "mean": 4.24,
+          "std": 8.72,
+          "min": 0.0,
+          "50%": 0.0,
+          "max": 30.0
+        }
+      },
+      "histograms": {
+        "age": [
+          {
+            "bin": "18–24",
+            "negative": 5622,
+            "positive": 78,
+            "rate": 0.014
+          },
+          {
+            "bin": "25–29",
+            "negative": 7458,
+            "positive": 140,
+            "rate": 0.018
+          },
+          {
+            "bin": "30–34",
+            "negative": 10809,
+            "positive": 314,
+            "rate": 0.028
+          },
+          {
+            "bin": "35–39",
+            "negative": 13197,
+            "positive": 626,
+            "rate": 0.045
+          },
+          {
+            "bin": "40–44",
+            "negative": 15106,
+            "positive": 1051,
+            "rate": 0.065
+          },
+          {
+            "bin": "45–49",
+            "negative": 18077,
+            "positive": 1742,
+            "rate": 0.088
+          },
+          {
+            "bin": "50–54",
+            "negative": 23226,
+            "positive": 3088,
+            "rate": 0.117
+          },
+          {
+            "bin": "55–59",
+            "negative": 26569,
+            "positive": 4263,
+            "rate": 0.138
+          },
+          {
+            "bin": "60–64",
+            "negative": 27511,
+            "positive": 5733,
+            "rate": 0.172
+          },
+          {
+            "bin": "65–69",
+            "negative": 25636,
+            "positive": 6558,
+            "rate": 0.204
+          },
+          {
+            "bin": "70–74",
+            "negative": 18392,
+            "positive": 5141,
+            "rate": 0.218
+          },
+          {
+            "bin": "75–79",
+            "negative": 12577,
+            "positive": 3403,
+            "rate": 0.213
+          },
+          {
+            "bin": "80+",
+            "negative": 14154,
+            "positive": 3209,
+            "rate": 0.185
+          }
+        ]
+      },
+      "correlations": [
+        {
+          "feature": "GenHlth",
+          "corr": 0.294
+        },
+        {
+          "feature": "HighBP",
+          "corr": 0.263
+        },
+        {
+          "feature": "DiffWalk",
+          "corr": 0.218
+        },
+        {
+          "feature": "BMI",
+          "corr": 0.217
+        },
+        {
+          "feature": "HighChol",
+          "corr": 0.2
+        },
+        {
+          "feature": "Age",
+          "corr": 0.177
+        },
+        {
+          "feature": "HeartDiseaseorAttack",
+          "corr": 0.177
+        },
+        {
+          "feature": "PhysHlth",
+          "corr": 0.171
+        },
+        {
+          "feature": "Income",
+          "corr": -0.164
+        },
+        {
+          "feature": "Education",
+          "corr": -0.124
+        },
+        {
+          "feature": "PhysActivity",
+          "corr": -0.118
+        },
+        {
+          "feature": "Stroke",
+          "corr": 0.106
+        },
+        {
+          "feature": "MentHlth",
+          "corr": 0.069
+        },
+        {
+          "feature": "CholCheck",
+          "corr": 0.065
+        },
+        {
+          "feature": "Smoker",
+          "corr": 0.061
+        },
+        {
+          "feature": "HvyAlcoholConsump",
+          "corr": -0.057
+        },
+        {
+          "feature": "Veggies",
+          "corr": -0.057
+        },
+        {
+          "feature": "Fruits",
+          "corr": -0.041
+        },
+        {
+          "feature": "NoDocbcCost",
+          "corr": 0.031
+        },
+        {
+          "feature": "Sex",
+          "corr": 0.031
+        },
+        {
+          "feature": "AnyHealthcare",
+          "corr": 0.016
+        }
+      ],
+      "findings": [
+        "253,680 хүний бодит судалгааны өгөгдөл; тархалт 13.9%. Монголын STEPS 2013-д чихрийн шижин 6.9% + өлөн үеийн глюкозын өөрчлөлт 8.3% = 15.2% тул зорилтын тодорхойлолт ойролцоо.",
+        "Нас ахих тусам эрсдэл огцом өснө: 18–24 насанд 1.4% → 65–69 насанд 20.4%.",
+        "BMI ≥ 35 бүлэгт 30%, BMI < 25 бүлэгт 6% — таргалалт хамгийн хүчтэй өөрчлөгдөх хүчин зүйл.",
+        "Их архи уудаг хүмүүст тархалт бага (5.8% vs 14.4%) — энэ нь шалтгаан биш, confounding (жишээ нь өвчтэй хүмүүс архинаас татгалздаг). Иймээс загварт оруулаагүй.",
+        "Гэр бүлийн түүх, цангах шинж тэмдэг BRFSS-д байхгүй тул хэвлэгдсэн OR-оор (×2.3, ×3.0) нэмж тооцсон.",
+        "24,206 мөр давхцдаг — бүх шинж хоёртын/ангиллын тул өөр хүмүүсийн хариулт адил байх нь хэвийн (ID өөр); leakage биш.",
+        "Хязгаарлалт: АНУ-ын хүн ам — Монголд хэрэглэхдээ суурь тархалтыг STEPS-ийн 15.2%-д шилжүүлж калибровк хийсэн."
+      ]
+    }
+  ],
+  "steps_reference": [
+    {
+      "indicator": "Артерийн даралт ихсэлт",
+      "value": 27.5,
+      "unit": "%"
+    },
+    {
+      "indicator": "Илүүдэл жин / таргалалт",
+      "value": 54.4,
+      "unit": "%"
+    },
+    {
+      "indicator": "Чихрийн шижин",
+      "value": 6.9,
+      "unit": "%"
+    },
+    {
+      "indicator": "Эрэгтэйчүүдийн тамхидалт",
+      "value": 49.1,
+      "unit": "%"
+    },
+    {
+      "indicator": "Хэвлийн таргалалт",
+      "value": 56.8,
+      "unit": "%"
+    },
+    {
+      "indicator": "Хэт их архидалт (эрэгтэй)",
+      "value": 37.5,
+      "unit": "%"
+    }
+  ]
+}
