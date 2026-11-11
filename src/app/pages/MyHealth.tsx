@@ -6,7 +6,7 @@ import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
 import { BOOKING_STATUS, fmtDate, fmtDateTime } from "../lib/format";
 import type { AssessmentSummary, Booking } from "../lib/types";
-import { Assessment, session } from "../domain";
+import { assessmentController, session } from "../domain";
 import { LevelBadge } from "../components/RiskVisuals";
 
 export function MyHealth() {
@@ -17,7 +17,7 @@ export function MyHealth() {
   const [confirm, setConfirm] = useState<"" | "assessments" | "all">("");
 
   const load = () => {
-    if (user) Assessment.listByUser(user.id).then(setHist).catch(() => setHist([]));
+    if (user) assessmentController.listByUser(user).then(setHist).catch(() => setHist([]));
     api<Booking[]>("/api/me/bookings").then(setBookings).catch(() => null);
   };
   useEffect(() => { if (user) load(); }, [user]);

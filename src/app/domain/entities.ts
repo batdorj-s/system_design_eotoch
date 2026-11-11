@@ -1,22 +1,25 @@
 /**
  * «entity» классууд — "EOTOCH — Шинжилгээний класс диаграм"-ын дагуу.
  *
+ * Зарчим: Entity нь ЦЭВЭР — сервер, localStorage, GPS руу хандахгүй; зөвхөн өгөгдөл ба
+ * бизнесийн дүрэм. Сервертэй харилцах бүх ажлыг Control классууд (controllers.ts) хийнэ.
+ * Ингэснээр хамаарал диаграмын дагуу Boundary → Control → Entity чиглэлтэй байна.
+ *
  * Холбоосууд (диаграм → код):
- *   User      ◆1 ── 0..* Assessment   (composition: хэрэглэгч устахад үнэлгээ нь устна)
- *   User      1  ── 0..* Booking      (association)
- *   Assessment◆1 ── 1    Answers      (composition)
- *   Assessment◆1 ── 1    RiskResult   (composition)
- *   Assessment 1 ── 0..1 Advice       (association)
- *   Assessment 0..1 ── 0..* Booking   "хуваалцана" (эрсдэлийн хураангуйг эмнэлэгт)
- *   RiskResult◆1 ── 0..3 DiseaseRisk  (composition)
- *   DiseaseRisk◇1 ── 0..* Factor      (aggregation)
- *   DiseaseRisk 0..* ── 1 Specialty   "зөвлөнө"
- *   Specialty  1 ── 0..* Doctor       "мэргэшсэн"
- *   Doctor    ◆1 ── 0..* TimeSlot     "хуваарь" (composition)
- *   Hospital  ◇1 ── 1..* Doctor       "ажилладаг" (aggregation)
- *   Booking 0..1 ── 1 TimeSlot        "захиална"
+ *   User      ◆1 ── 0..* Assessment   user.assessments          (composition)
+ *   User       1 ── 0..* Booking      user.bookings / booking.user
+ *   Assessment◆1 ── 1    Answers      assessment.answers        (composition)
+ *   Assessment◆1 ── 1    RiskResult   assessment.result         (composition)
+ *   Assessment 1 ── 0..1 Advice       assessment.advice
+ *   Assessment 0..1 ── 0..* Booking   "хуваалцана"  booking.assessment / assessment.bookings
+ *   RiskResult◆1 ── 0..3 DiseaseRisk  result.risks              (composition)
+ *   DiseaseRisk◇1 ── 0..* Factor      risk.factors              (aggregation)
+ *   DiseaseRisk 0..* ── 1 Specialty   "зөвлөнө"     risk.getSpecialty()
+ *   Specialty  1 ── 0..* Doctor       "мэргэшсэн"   specialty.doctors / doctor.specialty
+ *   Doctor    ◆1 ── 0..* TimeSlot     "хуваарь"     doctor.schedule (composition)
+ *   Hospital  ◇1 ── 1..* Doctor       "ажилладаг"   hospital.doctors / doctor.hospital
+ *   Booking 0..1 ── 1 TimeSlot        "захиална"    booking.slot
  */
-import { api } from "./ApiController";
 import type * as DTO from "../lib/types";
 
 export type Role = "user" | "staff" | "admin";
@@ -45,24 +48,19 @@ export class User {
     return new User(d.id, d.email, d.name, d.phone, d.role, d.hospital_id);
   }
 
-  static async login(email: string, pw: string): Promise<User> {
-    const r = await api.post<{ token: string; user: UserDTO }>("/api/auth/login", { email, password: pw });
-    api.setToken(r.token);
-    return User.fromDTO(r.user);
-  }
-
-  static async register(data: { email: string; password: string; name: string; phone?: string; consent: boolean }): Promise<User> {
-    const r = await api.post<{ token: string; user: UserDTO }>("/api/auth/register", data);
-    api.setToken(r.token);
-    return User.fromDTO(r.user);
-  }
-
-  logout(): void {
-    api.clearToken();
-  }
-
   getProfile(): User {
     return this;
+  }
+
+  /** Composition: хэрэглэгчийн үнэлгээг (давхардуулахгүй) эзэмшилд нэмнэ. */
+  addAssessment(a: Assessment): void {
+    const i = this.assessments.findIndex((x) => x.id === a.id);
+    if (i >= 0) this.assessments[i] = a;
+    else this.assessments.unshift(a);
+  }
+
+  addBooking(b: Booking): void {
+    if (!this.bookings.some((x) => x.id === b.id)) this.bookings.unshift(b);
   }
 }
 
@@ -89,9 +87,11 @@ export class Answers {
   validate(): boolean {
     return (
       this.age >= 10 && this.age <= 100 &&
+      (this.gender === "male" || this.gender === "female") &&
       this.height >= 100 && this.height <= 220 &&
       this.weight >= 30 && this.weight <= 200 &&
-      this.bp_systolic >= 80 && this.bp_systolic <= 220
+      this.bp_systolic >= 80 && this.bp_systolic <= 220 &&
+      ["never", "former", "current"].includes(this.smoking)
     );
   }
 
@@ -127,22 +127,35 @@ const DISEASE_SPECIALTY: Record<DiseaseKey, string> = {
   cancer: "Хавдар судлал",
 };
 
+/**
+ * Нэг мэргэжилд нэг л объект (registry). Ингэснээр RiskResult-аас авсан Specialty
+ * болон эмнэлгээс ачаалсан эмч нар ижил объектыг заана → getDoctors() бодит жагсаалт буцаана.
+ */
 export class Specialty {
+  private static readonly registry = new Map<string, Specialty>();
   readonly doctors: Doctor[] = []; // "мэргэшсэн" 1 ── 0..*
 
-  constructor(readonly id: string, readonly name: string, readonly diseaseKey: DiseaseKey | null) {}
+  private constructor(readonly id: string, readonly name: string, readonly diseaseKey: DiseaseKey | null) {}
 
   static forDisease(key: DiseaseKey): Specialty {
-    return new Specialty(key, DISEASE_SPECIALTY[key], key);
+    return Specialty.byName(DISEASE_SPECIALTY[key]);
   }
 
   static byName(name: string): Specialty {
-    const key = (Object.keys(DISEASE_SPECIALTY) as DiseaseKey[]).find((k) => DISEASE_SPECIALTY[k] === name) ?? null;
-    return new Specialty(key ?? name, name, key);
+    let s = Specialty.registry.get(name);
+    if (!s) {
+      const key = (Object.keys(DISEASE_SPECIALTY) as DiseaseKey[]).find((k) => DISEASE_SPECIALTY[k] === name) ?? null;
+      s = new Specialty(key ?? name, name, key);
+      Specialty.registry.set(name, s);
+    }
+    return s;
   }
 
+  /** Ижил ID-тай эмч дахин ачаалагдвал шинэ объектоор солино (давхардахгүй). */
   addDoctor(d: Doctor): void {
-    if (!this.doctors.includes(d)) this.doctors.push(d);
+    const i = this.doctors.findIndex((x) => x.id === d.id);
+    if (i >= 0) this.doctors[i] = d;
+    else this.doctors.push(d);
   }
 
   getDoctors(): Doctor[] {
@@ -178,7 +191,7 @@ export class DiseaseRisk {
 export class RiskResult {
   static readonly URGENT_THRESHOLD = 85;
 
-  constructor(
+  private constructor(
     readonly model_version: string,
     readonly bmi: number,
     readonly bmi_category: string,
@@ -187,12 +200,12 @@ export class RiskResult {
     readonly overall: { value: number; level: Level; level_label: string } | null,
     readonly risks: DiseaseRisk[], // composition 0..3
     /** UI-д хэрэгтэй нэмэлт мэдээлэл (диаграмын үндсэн атрибутаас гадна) */
-    readonly in_scope: boolean = true,
-    readonly scope_message: string | undefined = undefined,
-    readonly radar: { axis: string; value: number }[] = [],
-    readonly reasons: string[] = [],
-    readonly offline: boolean = false,
-    private readonly dto?: DTO.RiskResult,
+    readonly in_scope: boolean,
+    readonly scope_message: string | undefined,
+    readonly radar: { axis: string; value: number }[],
+    readonly reasons: string[],
+    readonly offline: boolean,
+    private readonly dto: DTO.RiskResult, // заавал — toJSON() хэзээ ч undefined буцаахгүй
   ) {}
 
   static fromDTO(d: DTO.RiskResult): RiskResult {
@@ -203,7 +216,7 @@ export class RiskResult {
       d.in_scope, d.scope_message, d.radar ?? [], d.reasons ?? [], d.offline ?? false, d);
   }
 
-  toJSON(): DTO.RiskResult | undefined {
+  toJSON(): DTO.RiskResult {
     return this.dto;
   }
 
@@ -211,9 +224,14 @@ export class RiskResult {
     return this.risks.find((r) => r.key === key);
   }
 
-  getLevel(): Level {
+  /**
+   * Нийт эрсдэлийн түвшин. Оноо тооцоогүй (нас 15–65-аас гадуур) бол `null` —
+   * "эрсдэл бага" гэж худлаа хэлэхгүй.
+   */
+  getLevel(): Level | null {
+    if (!this.in_scope || this.risks.length === 0) return null;
     if (this.overall) return this.overall.level;
-    return levelOf(Math.max(0, ...this.risks.map((r) => r.value)));
+    return levelOf(Math.max(...this.risks.map((r) => r.value)));
   }
 
   /** Бизнесийн дүрэм: зүрх эсвэл хавдрын эрсдэл ≥ 85% эсвэл аюулын шинж тэмдэг байвал яаралтай. */
@@ -227,7 +245,7 @@ export class RiskResult {
    * (жишээ нь тамхи/агаарын бохирдол → "Уушги, амьсгалын зам") санал болгосон бол түүнийг ашиглана.
    */
   getSpecialties(): Specialty[] {
-    if (this.dto?.specialties?.length) return this.dto.specialties.map(Specialty.byName);
+    if (this.dto.specialties?.length) return this.dto.specialties.map(Specialty.byName);
     return [...this.risks].filter((r) => r.level !== "low").sort((a, b) => b.value - a.value).map((r) => r.getSpecialty());
   }
 }
@@ -264,22 +282,13 @@ export class Assessment {
     readonly answers: Answers,      // composition 1
     readonly result: RiskResult,    // composition 1
     readonly advice: Advice | null, // association 0..1
+    /** Эзэмшигч хэрэглэгч; нэвтрээгүй хийсэн бол null */
+    readonly userId: string | null = null,
   ) {}
 
   static fromDTO(d: DTO.Assessment): Assessment {
     return new Assessment(d.id, new Date(d.created_at), Answers.fromDTO(d.answers), RiskResult.fromDTO(d.result),
-      d.advice ? Advice.fromDTO(d.advice) : null);
-  }
-
-  toJSON(): DTO.Assessment {
-    return { id: this.id, created_at: this.created_at.toISOString(), answers: this.answers.toJSON(),
-      result: this.result.toJSON()!, advice: this.advice };
-  }
-
-  /** Шинэ үнэлгээ илгээж, серверээс эрсдэл + SHAP тайлбар + зөвлөгөө авна. */
-  static async create(answers: Answers): Promise<Assessment> {
-    if (!answers.validate()) throw new Error("Асуулгын утга хүрээнээс гадуур байна.");
-    return Assessment.fromDTO(await api.post<DTO.Assessment>("/api/assessments", { answers: answers.toJSON(), consent: true }));
+      d.advice ? Advice.fromDTO(d.advice) : null, d.user_id ?? null);
   }
 
   /** Серверт хадгалагдаагүй, браузер дотор (ONNX) тооцоолсон үнэлгээ. */
@@ -287,19 +296,13 @@ export class Assessment {
     return new Assessment("offline", new Date(), answers, RiskResult.fromDTO(result), null);
   }
 
-  static async load(id: string): Promise<Assessment> {
-    return Assessment.fromDTO(await api.get<DTO.Assessment>(`/api/assessments/${encodeURIComponent(id)}`));
+  toJSON(): DTO.Assessment {
+    return { id: this.id, created_at: this.created_at.toISOString(), answers: this.answers.toJSON(),
+      result: this.result.toJSON(), advice: this.advice, user_id: this.userId };
   }
 
-  /** Зөвлөгөөг AI-аар дахин үүсгэнэ (Gemini ажиллахгүй байсан бол). */
-  async regenerateAdvice(): Promise<Assessment> {
-    const adv = Advice.fromDTO(await api.post<DTO.Advice>(`/api/assessments/${this.id}/advice`));
-    return new Assessment(this.id, this.created_at, this.answers, this.result, adv);
-  }
-
-  /** Нэргүй хийсэн үнэлгээг нэвтэрсэн хэрэглэгчийн түүхэнд нэмнэ. */
-  async claim(): Promise<boolean> {
-    return (await api.post<{ claimed: boolean }>(`/api/me/assessments/${this.id}/claim`)).claimed;
+  isOffline(): boolean {
+    return this.id === "offline";
   }
 
   getResult(): RiskResult {
@@ -310,9 +313,18 @@ export class Assessment {
     return this.advice;
   }
 
-  /** Хэрэглэгчийн түүх (нэвтэрсэн токеноор). */
-  static async listByUser(_uid: string): Promise<DTO.AssessmentSummary[]> {
-    return api.get("/api/me/assessments");
+  /** Шинэ зөвлөгөөтэй хуулбар (immutable). */
+  withAdvice(advice: Advice): Assessment {
+    return new Assessment(this.id, this.created_at, this.answers, this.result, advice, this.userId);
+  }
+
+  withOwner(userId: string): Assessment {
+    return new Assessment(this.id, this.created_at, this.answers, this.result, this.advice, userId);
+  }
+
+  /** Өгөгдсөн жагсаалтаас тухайн хэрэглэгчийнхийг шинээс хуучин руу. */
+  static listByUser(all: Assessment[], uid: string): Assessment[] {
+    return all.filter((a) => a.userId === uid).sort((a, b) => b.created_at.getTime() - a.created_at.getTime());
   }
 }
 
@@ -326,7 +338,7 @@ export class TimeSlot {
     private booked: boolean,
   ) {}
 
-  /** 30 минутын слот үүсгэнэ. */
+  /** 30 минутын слот үүсгэнэ. ID нь эмч + огноо + цагаар тогтмол → дахин ачаалахад ижил. */
   static of(doctorId: string, date: string, start: string, booked = false): TimeSlot {
     const [h, m] = start.split(":").map(Number);
     const end = h * 60 + m + 30;
@@ -365,17 +377,35 @@ export class Doctor {
     readonly hospital: Hospital,
   ) {}
 
-  /** Тухайн өдрийн сул цагууд — серверийн /slots endpoint-оос. */
-  async getFreeSlots(date: string): Promise<TimeSlot[]> {
-    const rows = await api.get<{ time: string; available: boolean }[]>(
-      `/api/hospitals/${encodeURIComponent(this.hospital.id)}/slots?day=${date}&specialty=${encodeURIComponent(this.specialty.name)}`);
-    const slots = rows.map((r) => TimeSlot.of(this.id, date, r.time, !r.available));
-    this.schedule.splice(0, this.schedule.length, ...this.schedule.filter((s) => s.date !== date), ...slots);
-    return slots.filter((s) => s.isFree());
+  /**
+   * Серверээс ирсэн хуваарийг нэгтгэнэ. Ижил ID-тай слот байвал ШИНЭ объект үүсгэхгүй,
+   * байгаа объектын төлөвийг шинэчилнэ → Booking.slot хуваарьтай үргэлж нэг объект.
+   */
+  mergeSchedule(date: string, rows: { time: string; available: boolean }[]): void {
+    const incoming = new Set<string>();
+    for (const r of rows) {
+      const fresh = TimeSlot.of(this.id, date, r.time, !r.available);
+      incoming.add(fresh.id);
+      const existing = this.schedule.find((s) => s.id === fresh.id);
+      if (!existing) this.schedule.push(fresh);
+      else if (r.available && existing.isBooked) existing.release();
+      else if (!r.available && existing.isFree()) existing.reserve();
+    }
+    // тухайн өдрийн серверт байхгүй болсон слотыг хасна
+    for (let i = this.schedule.length - 1; i >= 0; i--) {
+      const s = this.schedule[i];
+      if (s.date === date && !incoming.has(s.id)) this.schedule.splice(i, 1);
+    }
+    this.schedule.sort((a, b) => (a.date + a.startTime).localeCompare(b.date + b.startTime));
   }
 
-  getSchedule(): TimeSlot[] {
-    return this.schedule;
+  /** Тухайн өдрийн сул цагууд (ачаалсан хуваариас). */
+  getFreeSlots(date: string): TimeSlot[] {
+    return this.schedule.filter((s) => s.date === date && s.isFree());
+  }
+
+  getSchedule(date?: string): TimeSlot[] {
+    return date ? this.schedule.filter((s) => s.date === date) : this.schedule;
   }
 }
 
@@ -419,18 +449,17 @@ export class Hospital {
     return h;
   }
 
-  /** Сервер шүүж, тохирох мэргэжил → зайгаар эрэмбэлж буцаана. */
-  static async searchNearby(lat: number, lng: number, f: HospitalFilter = {}): Promise<Hospital[]> {
-    const q = new URLSearchParams({ lat: String(lat), lng: String(lng) });
-    if (f.specialty) q.set("specialty", f.specialty);
-    if (f.emergency) q.set("emergency", "true");
-    f.prioritize?.forEach((p) => q.append("prioritize", p));
-    const r = await api.get<{ hospitals: HospitalDTO[] }>(`/api/hospitals?${q}`);
-    return r.hospitals.map(Hospital.fromDTO);
+  /** Өгөгдсөн байршлаас radiusKm дотор байгааг ойроос нь эрэмбэлнэ. */
+  static searchNearby(all: Hospital[], lat: number, lng: number, radiusKm = Infinity): Hospital[] {
+    return all
+      .map((h) => ({ h, d: h.getDistance({ lat, lng }) }))
+      .filter((x) => x.d <= radiusKm)
+      .sort((a, b) => a.d - b.d)
+      .map((x) => x.h);
   }
 
   getDoctors(spec: Specialty): Doctor[] {
-    return this.doctors.filter((d) => d.specialty.name === spec.name);
+    return this.doctors.filter((d) => d.specialty === spec);
   }
 
   /** Haversine томьёо — км. */
@@ -458,6 +487,7 @@ export class Booking {
     readonly doctor: Doctor,
     readonly patient: { name: string; phone: string },
     readonly assessment: Assessment | null,  // "хуваалцана" 0..1
+    readonly user: User | null = null,       // User 1 ── 0..* Booking (нэвтрээгүй бол null)
     public staff_note = "",
   ) {}
 
@@ -469,25 +499,26 @@ export class Booking {
     return this.doctor.specialty.name;
   }
 
-  /** Эмнэлгийн ажилтан баталгаажуулна. */
-  async confirm(): Promise<void> {
+  isActive(): boolean {
+    return this._status === "pending" || this._status === "confirmed";
+  }
+
+  /** Төлөвийн дүрэм: зөвхөн хүлээгдэж буйг батална. */
+  confirm(): void {
     if (this._status !== "pending") throw new Error("Зөвхөн хүлээгдэж буй захиалгыг батална.");
-    await api.patch(`/api/staff/bookings/${this.id}`, { status: "confirmed", note: this.staff_note });
     this._status = "confirmed";
   }
 
-  /** Хэрэглэгч цуцлахад слот чөлөөлөгдөнө. */
-  async cancel(): Promise<void> {
-    if (this._status !== "pending" && this._status !== "confirmed") return;
-    await api.post(`/api/me/bookings/${this.id}/cancel`);
+  /** Цуцлахад слот чөлөөлөгдөнө. Идэвхгүй захиалгыг цуцлах боломжгүй. */
+  cancel(): void {
+    if (!this.isActive()) throw new Error("Энэ захиалга идэвхгүй байна.");
     this._status = "cancelled";
     this.slot.release();
   }
 
   /** Backend-тэй ижил дүрэм: (1) нэг слот давхар, (2) нэг утсаар нэг өдөр нэг эмнэлэгт давхар. */
   isDuplicate(existing: Booking[]): boolean {
-    const active = (b: Booking) => b.id !== this.id && (b.status === "pending" || b.status === "confirmed");
-    return existing.filter(active).some((b) =>
+    return existing.filter((b) => b.id !== this.id && b.isActive()).some((b) =>
       (b.doctor.id === this.doctor.id && b.slot.date === this.slot.date && b.slot.startTime === this.slot.startTime) ||
       (b.doctor.hospital.id === this.doctor.hospital.id && b.slot.date === this.slot.date && b.patient.phone === this.patient.phone));
   }

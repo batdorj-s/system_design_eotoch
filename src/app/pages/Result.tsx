@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router";
 import { AlertTriangle, BookmarkPlus, ChevronDown, FileDown, Hospital, Info, Loader2, RefreshCw, Sparkles, Volume2, WifiOff } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { ALGO_LABEL, fmtDateTime, pct } from "../lib/format";
-import { Assessment, session, type DiseaseRisk } from "../domain";
+import { assessmentController, type Assessment, type DiseaseRisk } from "../domain";
 import { FactorBars, LevelBadge, RiskRadar, RiskRing } from "../components/RiskVisuals";
 import { speak } from "../components/ChatAssistant";
 
@@ -47,12 +47,8 @@ export function Result() {
   const [claimed, setClaimed] = useState(false);
 
   useEffect(() => {
-    if (id === "offline") {
-      const o = session.getOffline();
-      return o ? setData(o) : setErr("Оффлайн үр дүн олдсонгүй.");
-    }
-    Assessment.load(id).then(setData).catch((e) => setErr(e.message));
-  }, [id]);
+    assessmentController.load(id, user).then(setData).catch((e: Error) => setErr(e.message));
+  }, [id, user]);
 
   if (err) return <div className="mx-auto max-w-xl px-4 py-16 text-center"><p className="text-red-700">{err}</p><Link to="/assessment" className="mt-4 inline-block text-primary underline">Шинэ үнэлгээ</Link></div>;
   if (!data) return <div className="flex justify-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
@@ -66,13 +62,18 @@ export function Result() {
   const regenerate = async () => {
     setRegen(true);
     try {
-      setData(await data.regenerateAdvice());
+      setData(await assessmentController.regenerateAdvice(data));
     } finally {
       setRegen(false);
     }
   };
 
-  const claim = async () => setClaimed(await data.claim());
+  const claim = async () => {
+    if (!user) return;
+    const owned = await assessmentController.claim(data, user);
+    if (owned) setData(owned);
+    setClaimed(owned !== null);
+  };
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 md:py-10">

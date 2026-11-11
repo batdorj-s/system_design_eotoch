@@ -134,3 +134,25 @@ def test_monotonic_risk_factors():
     assert smoke[1] > smoke[0]
     bmi = [e.predict({**base, "weight": w})["risks"]["diabetes"]["value"] for w in (65, 85, 105)]
     assert bmi == sorted(bmi)
+
+
+def test_anonymous_cancel_by_code(client):
+    day = (date.today() + timedelta(days=3)).isoformat()
+    b = client.post("/api/bookings", json={"hospital_id": "songdo", "specialty": "Зүрх судас", "date": day,
+                                           "time": "11:00", "name": "Нэргүй", "phone": "99887766"}).json()
+    assert client.post("/api/bookings/cancel", json={"code": b["code"], "phone": "11112222"}).status_code == 404
+    assert client.post("/api/bookings/cancel", json={"code": b["code"], "phone": "99887766"}).json()["ok"]
+    assert client.post("/api/bookings/cancel", json={"code": b["code"], "phone": "99887766"}).status_code == 404
+    slots = client.get("/api/hospitals/songdo/slots", params={"day": day, "specialty": "Зүрх судас"}).json()
+    assert next(s for s in slots if s["time"] == "11:00")["available"]
+
+
+def test_assessment_exposes_owner(client):
+    r = client.post("/api/auth/register", json={"email": "own@example.mn", "password": "Secret123",
+                                                "name": "Own", "consent": True}).json()
+    h = {"Authorization": f"Bearer {r['token']}"}
+    a = client.post("/api/assessments", json={"answers": LOW, "consent": True}, headers=h).json()
+    assert a["user_id"] == r["user"]["id"]
+    assert client.get(f"/api/assessments/{a['id']}", headers=h).json()["user_id"] == r["user"]["id"]
+    anon = client.post("/api/assessments", json={"answers": LOW, "consent": True}).json()
+    assert anon["user_id"] is None

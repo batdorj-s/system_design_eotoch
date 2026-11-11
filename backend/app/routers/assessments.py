@@ -43,7 +43,8 @@ class AssessIn(BaseModel):
 
 
 def _summary(doc: dict) -> dict:
-    return {"id": doc["_id"], "created_at": doc["created_at"], "model_version": doc.get("model_version"),
+    return {"id": doc["_id"], "created_at": doc["created_at"], "user_id": doc.get("user_id"),
+            "model_version": doc.get("model_version"),
             "overall": doc.get("overall"), "scores": doc.get("scores"), "bmi": doc.get("bmi"),
             "urgent": doc.get("urgent", False)}
 
@@ -68,8 +69,8 @@ def create_assessment(body: AssessIn, request: Request, user: dict | None = Depe
     }
     get_db().assessments.insert_one(doc)
     audit("assessment.create", user, doc["_id"], request, urgent=result["urgent"])
-    return {"id": doc["_id"], "created_at": doc["created_at"], "answers": answers, "result": result,
-            "advice": advice}
+    return {"id": doc["_id"], "created_at": doc["created_at"], "user_id": doc["user_id"], "answers": answers,
+            "result": result, "advice": advice}
 
 
 @router.post("/assessments/preview")

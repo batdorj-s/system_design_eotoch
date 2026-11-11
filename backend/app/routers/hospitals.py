@@ -157,6 +157,24 @@ def cancel_my_booking(bid: str, request: Request, user: dict = Depends(current_u
     return {"ok": True}
 
 
+class CancelIn(BaseModel):
+    code: str = Field(pattern=r"^ТЗ-\d{4}$")
+    phone: str = Field(pattern=r"^\+?\d{8,12}$")
+
+
+@router.post("/bookings/cancel")
+def cancel_by_code(body: CancelIn, request: Request, user: dict | None = Depends(optional_user)):
+    """Код + утсаар цуцлах — нэвтрээгүй захиалагч ч өөрийн захиалгаа цуцалж чадна
+    (код ба утасны дугаар хоёулаа таарах нь эзэмшлийн баталгаа)."""
+    r = get_db().bookings.update_one(
+        {"code": body.code, "phone": body.phone, "status": {"$in": ["pending", "confirmed"]}},
+        {"$set": {"status": "cancelled"}, "$push": {"history": {"status": "cancelled", "at": now(), "by": "patient"}}})
+    if not r.modified_count:
+        raise HTTPException(404, "Идэвхтэй захиалга олдсонгүй")
+    audit("booking.cancel_by_code", user, body.code, request)
+    return {"ok": True}
+
+
 @router.get("/bookings/lookup")
 def lookup(code: str, phone: str):
     """Нэвтрээгүй хэрэглэгч кодоо утасны дугаартайгаа шалгах."""

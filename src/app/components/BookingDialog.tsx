@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, CheckCircle2, Loader2, Stethoscope, X } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { locationController } from "../lib/useLocation";
-import { Assessment, BookingController, Specialty, session, type Booking, type Hospital, type TimeSlot } from "../domain";
+import { BookingController, Specialty, assessmentController, session, type Booking, type Hospital, type TimeSlot } from "../domain";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const iso = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -37,7 +37,7 @@ export function BookingDialog({ hospital, specialty, onClose }: { hospital: Hosp
     setSlot(null);
     controller.selectDoctor(doctor);
     controller.getFreeSlots(doctor, day)
-      .then(() => alive && setSlots(doctor.getSchedule().filter((s) => s.date === day)))
+      .then(() => alive && setSlots([...doctor.getSchedule(day)]))
       .catch(() => alive && setSlots([]));
     return () => { alive = false; };
   }, [controller, doctor, day]);
@@ -55,8 +55,9 @@ export function BookingDialog({ hospital, specialty, onClose }: { hospital: Hosp
     setBusy(true);
     try {
       // Хуваалцахыг зөвшөөрсөн үед л үнэлгээг ачаалж холбоно (Assessment 0..1 ── 0..* Booking)
-      const assessment = share && aid && aid !== "offline" ? await Assessment.load(aid) : null;
-      setDone(await controller.book({ name: name.trim(), phone }, slot, assessment, share));
+      const assessment = share && aid && aid !== "offline" ? await assessmentController.load(aid, user) : null;
+      // book(u, slot, a) — диаграмын сигнатур; нэвтрээгүй бол u = null
+      setDone(await controller.book(user, slot, assessment, { name: name.trim(), phone }, share));
     } catch (e) {
       setErr((e as Error).message);
     } finally {

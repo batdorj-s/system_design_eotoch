@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router";
 import { Clock, Loader2, MapPin, Navigation, Phone, Siren } from "lucide-react";
 import { SPECIALTIES } from "../lib/format";
 import { useLocation } from "../lib/useLocation";
-import { Hospital } from "../domain";
+import type { Hospital } from "../domain";
 import { BookingDialog } from "../components/BookingDialog";
 
 export function Hospitals() {
@@ -19,9 +19,9 @@ export function Hospitals() {
   useEffect(() => {
     if (!geo.ready) return;
     setList(null);
-    Hospital.searchNearby(geo.lat, geo.lng, { specialty: specialty || undefined, emergency, prioritize })
+    geo.controller.searchNearby({ specialty: specialty || undefined, emergency, prioritize }, { lat: geo.lat, lng: geo.lng })
       .then(setList)
-      .catch((e) => setErr(e.message));
+      .catch((e: Error) => setErr(e.message));
   }, [geo.ready, geo.lat, geo.lng, specialty, emergency, prioritize.join("|")]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const setFilter = (k: string, v: string | null) => {
@@ -36,7 +36,7 @@ export function Hospitals() {
       <h1 className="text-3xl font-extrabold">Ойрын эмнэлэг</h1>
       <p className="mt-1 text-muted-foreground flex items-center gap-1.5">
         <Navigation className="h-4 w-4" />
-        {!geo.ready ? "Байршил тодорхойлж байна…" : geo.fallback ? "Байршил зөвшөөрөөгүй тул Улаанбаатарын төвөөс тооцов" : "Таны байршлаас зайгаар эрэмбэлэв"}
+        {!geo.ready ? "Байршил тодорхойлж байна…" : geo.fallback ? "Байршил зөвшөөрөөгүй тул Сүхбаатарын талбайгаас (хотын төв) тооцов" : "Таны байршлаас зайгаар эрэмбэлэв"}
       </p>
 
       <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Мэргэжлээр шүүх">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PhoneCall, MapPin, X } from "lucide-react";
 import { useLocation } from "../lib/useLocation";
-import { Hospital } from "../domain";
+import type { Hospital } from "../domain";
 
 export function SOSDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const geo = useLocation(open);
@@ -10,7 +10,7 @@ export function SOSDialog({ open, onClose }: { open: boolean; onClose: () => voi
   useEffect(() => {
     if (!open || !geo.ready) return;
     // showNearbyHospitals: 24/7 яаралтай тусламжтай эмнэлгүүдийг зайгаар
-    Hospital.searchNearby(geo.lat, geo.lng, { emergency: true })
+    geo.controller.searchNearby({ emergency: true }, { lat: geo.lat, lng: geo.lng })
       .then((hs) => setList(geo.controller.sortByDistance(hs).slice(0, 3)))
       .catch(() => setList([]));
   }, [open, geo.ready, geo.lat, geo.lng]);

@@ -3,25 +3,27 @@ import { LocationController, type GeoCoords } from "../domain";
 
 /** Програм даяар нэг LocationController — GPS-ийг нэг л удаа асууна. */
 export const locationController = new LocationController();
-let pending: Promise<GeoCoords> | null = null;
-let resolved = false;
 
-/** React hook: LocationController.getCurrentPos()-ийн үр дүнг дэлгэцэд хүргэнэ. */
+/**
+ * React hook. Эхнээсээ Сүхбаатарын талбайгаар `ready = true` буцаана (хүлээлгүй).
+ * Хэрэглэгч байршлаа зөвшөөрвөл GPS-ийн байршил ирж автоматаар шинэчлэгдэнэ.
+ */
 export function useLocation(enabled = true) {
-  const [ready, setReady] = useState(resolved);
   const [coords, setCoords] = useState<GeoCoords>(locationController.getCoords());
+  const [fallback, setFallback] = useState(locationController.isFallback());
 
   useEffect(() => {
     if (!enabled) return;
     let alive = true;
-    pending ??= locationController.getCurrentPos().then((c) => { resolved = true; return c; });
-    pending.then((c) => {
+    const update = (c: GeoCoords) => {
       if (!alive) return;
       setCoords(c);
-      setReady(true);
-    });
-    return () => { alive = false; };
+      setFallback(locationController.isFallback());
+    };
+    const off = locationController.subscribe(update);
+    locationController.getCurrentPos().then(update);
+    return () => { alive = false; off(); };
   }, [enabled]);
 
-  return { ...coords, ready, fallback: locationController.isFallback(), controller: locationController };
+  return { ...coords, ready: true, fallback, controller: locationController };
 }

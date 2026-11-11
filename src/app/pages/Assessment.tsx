@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, Loader2, ShieldCheck } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { predictOffline } from "../lib/offline";
 import type { Answers } from "../lib/types";
-import { ApiError, Answers as AnswersEntity, Assessment as AssessmentEntity, session } from "../domain";
+import { ApiError, Answers as AnswersEntity, assessmentController } from "../domain";
 import { BodyMap } from "../components/BodyMap";
 
 const DEFAULTS: Answers = {
@@ -135,14 +135,14 @@ export function Assessment() {
     setErr("");
     const answers = AnswersEntity.fromDTO(a);
     try {
-      const assessment = await AssessmentEntity.create(answers); // validate() → POST → RiskResult + Advice
-      session.saveLastId(assessment.id);
+      // validate() → POST → RiskResult + Advice; session-д ID, хэрэглэгчийн түүхэнд нэмнэ
+      const assessment = await assessmentController.create(answers, user);
       nav(`/result/${assessment.id}`);
     } catch (e) {
       if (e instanceof ApiError && e.status === 0) {
         // Сервер холбогдохгүй → браузер дотор ONNX-оор тооцоолно
         try {
-          session.saveOffline(AssessmentEntity.offline(answers, await predictOffline(a)));
+          assessmentController.saveOffline(answers, await predictOffline(a));
           nav("/result/offline");
           return;
         } catch {

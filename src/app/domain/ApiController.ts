@@ -11,14 +11,17 @@ export class ApiError extends Error {
 const TOKEN_KEY = "eotoch_token";
 
 export class ApiController {
-  /** localStorage хаалттай (хувийн горим) үед санах ойд хадгална. */
+  /** Зөвхөн localStorage ажиллахгүй (хувийн горим) үед ашиглана. */
   private memoryToken: string | null = null;
 
   constructor(private readonly baseUrl: string = (import.meta.env?.VITE_API_URL as string | undefined) ?? "") {}
 
-  /** Токеныг хүсэлт бүрт хадгалалтаас уншина — бусад таб нэвтэрч/гарахад ч зөрөхгүй. */
+  /**
+   * Токеныг хүсэлт бүрт localStorage-аас уншина — өөр таб дээр гарахад (logout) энд ч шууд
+   * хүчингүй болно. Санах ойн хуулбар зөвхөн localStorage хаалттай үед.
+   */
   private get token(): string | null {
-    try { return localStorage.getItem(TOKEN_KEY) ?? this.memoryToken; } catch { return this.memoryToken; }
+    try { return localStorage.getItem(TOKEN_KEY); } catch { return this.memoryToken; }
   }
 
   async get<T>(path: string): Promise<T> {

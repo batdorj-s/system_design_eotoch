@@ -65,6 +65,7 @@ export interface Advice {
 export interface Assessment {
   id: string;
   created_at: string;
+  user_id?: string | null;
   answers: Answers;
   result: RiskResult;
   advice: Advice | null;
